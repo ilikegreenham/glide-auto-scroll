@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Glide</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" alt="" width="22" height="22">
+    <h1>Glide</h1>
+    <span id="status" class="status">Ready</span>
+  </header>
+
+  <main id="controls">
+    <section class="hero">
+      <button id="toggle" class="toggle" aria-label="Start scrolling">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+      </button>
+      <div class="readout">
+        <span id="speedValue" class="speed">60</span>
+        <span class="unit">pixels / sec</span>
+      </div>
+    </section>
+
+    <section class="slider-row">
+      <button id="slower" class="step" aria-label="Slower">&minus;</button>
+      <input id="speed" type="range" min="0" max="1000" step="1" aria-label="Scroll speed">
+      <button id="faster" class="step" aria-label="Faster">+</button>
+    </section>
+
+    <section class="presets" aria-label="Speed presets">
+      <button data-speed="25">Slow</button>
+      <button data-speed="60">Read</button>
+      <button data-speed="150">Skim</button>
+      <button data-speed="350">Fast</button>
+    </section>
+
+    <section class="options">
+      <label class="switch">
+        <span>Floating controls on page</span>
+        <input id="showControls" type="checkbox">
+        <span class="track" aria-hidden="true"></span>
+      </label>
+      <label class="switch">
+        <span>Pause at the end of the page</span>
+        <input id="stopAtEnd" type="checkbox">
+        <span class="track" aria-hidden="true"></span>
+      </label>
+    </section>
+  </main>
+
+  <p id="unsupported" class="unsupported" hidden>
+    Chrome doesn't let extensions run on this page. That includes chrome:// pages, the Web Store and Chrome's built-in PDF viewer. Try a normal website.
+  </p>
+
+  <footer>
+    <dl id="shortcuts" class="shortcuts"></dl>
+    <button id="editShortcuts" class="link">Change shortcuts</button>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

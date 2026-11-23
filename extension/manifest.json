@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Glide - Smooth Auto Scroll",
+  "short_name": "Glide",
+  "version": "1.0.0",
+  "description": "Hands-free, adjustable auto scrolling for reading articles, docs, and long pages.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Glide auto scroll",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "commands": {
+    "toggle-scroll": {
+      "suggested_key": { "default": "Alt+Shift+S" },
+      "description": "Start or pause auto scrolling"
+    },
+    "speed-up": {
+      "suggested_key": { "default": "Alt+Shift+Up" },
+      "description": "Scroll faster"
+    },
+    "slow-down": {
+      "suggested_key": { "default": "Alt+Shift+Down" },
+      "description": "Scroll slower"
+    }
+  }
+}
