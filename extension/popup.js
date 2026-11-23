@@ -1,7 +1,7 @@
 // The popup you see when clicking the toolbar icon.
 
 const $ = (id) => document.getElementById(id);
-let tabId = null;
+let tab = null;
 let pageReady = false;
 
 // The slider is logarithmic, so slow speeds get as much room as fast ones.
@@ -17,6 +17,15 @@ function showSpeed(speed) {
   }
 }
 
+function showUnit(state) {
+  const auto = $("autoSpeed").checked;
+  if (auto && state?.running && state.currentSpeed) {
+    $("unit").textContent = `px / sec average · now ${state.currentSpeed}`;
+  } else {
+    $("unit").textContent = auto ? "px / sec average (auto)" : "pixels / sec";
+  }
+}
+
 function showRunning(running, reachedEnd) {
   $("toggle").classList.toggle("running", running);
   $("toggle").setAttribute("aria-label", running ? "Pause scrolling" : "Start scrolling");
@@ -24,20 +33,16 @@ function showRunning(running, reachedEnd) {
   $("status").textContent = running ? "Scrolling" : reachedEnd ? "Reached the end" : "Paused";
 }
 
+let lastState = null;
 function showState(state) {
   if (!state) return;
+  lastState = state;
   showRunning(state.running, state.reachedEnd);
   showSpeed(state.speed);
+  showUnit(state);
 }
 
-async function send(type) {
-  if (!pageReady) return null;
-  try {
-    return await chrome.tabs.sendMessage(tabId, { type });
-  } catch {
-    return null;
-  }
-}
+const send = (type) => (pageReady ? GLIDE.sendToTab(tab, type) : Promise.resolve(null));
 
 function saveSpeed(speed) {
   showSpeed(speed);
@@ -49,19 +54,21 @@ async function init() {
   showSpeed(settings.speed);
   $("showControls").checked = settings.showControls;
   $("stopAtEnd").checked = settings.stopAtEnd;
+  $("autoSpeed").checked = settings.autoSpeed;
+  showUnit(null);
 
-  // Inject the page script into the current tab (opening the popup gives
+  // Put the scrolling script into the current tab (opening the popup gives
   // the extension temporary permission to do this).
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  tabId = tab?.id;
-  try {
-    await chrome.scripting.executeScript({ target: { tabId }, files: ["shared.js", "content.js"] });
-    pageReady = true;
+  [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  pageReady = Boolean(tab) && (await GLIDE.prepareTab(tab));
+
+  if (pageReady) {
     showState(await send("getState"));
-  } catch {
+  } else {
     $("controls").hidden = true;
-    $("unsupported").hidden = false;
     $("status").textContent = "Unavailable";
+    if (GLIDE.couldBePdf(tab?.url)) $("pdfOffer").hidden = false;
+    else $("unsupported").hidden = false;
   }
 
   showShortcuts();
@@ -126,12 +133,26 @@ for (const button of document.querySelectorAll(".presets button")) {
 
 $("showControls").addEventListener("change", (e) => chrome.storage.local.set({ showControls: e.target.checked }));
 $("stopAtEnd").addEventListener("change", (e) => chrome.storage.local.set({ stopAtEnd: e.target.checked }));
+$("autoSpeed").addEventListener("change", (e) => {
+  chrome.storage.local.set({ autoSpeed: e.target.checked });
+  showUnit(lastState);
+});
+
+$("openReader").addEventListener("click", async () => {
+  await chrome.tabs.update(tab.id, { url: GLIDE.readerUrl(tab.url) });
+  window.close();
+});
 
 $("editShortcuts").addEventListener("click", () => chrome.tabs.create({ url: "chrome://extensions/shortcuts" }));
 
 // Keep the popup in sync when you use the floating control or a shortcut.
 chrome.runtime.onMessage.addListener((message, sender) => {
-  if (message.type === "state" && sender.tab?.id === tabId) showState(message.state);
+  if (message.type === "state" && sender.tab?.id === tab?.id) showState(message.state);
 });
+
+// While auto speed is on, refresh the live speed now and then.
+setInterval(async () => {
+  if (pageReady && $("autoSpeed").checked && lastState?.running) showState(await send("getState"));
+}, 1000);
 
 init();

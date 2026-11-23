@@ -20,7 +20,7 @@
       </button>
       <div class="readout">
         <span id="speedValue" class="speed">60</span>
-        <span class="unit">pixels / sec</span>
+        <span id="unit" class="unit">pixels / sec</span>
       </div>
     </section>
 
@@ -44,6 +44,11 @@
         <span class="track" aria-hidden="true"></span>
       </label>
       <label class="switch">
+        <span>Auto speed <span class="beta">Beta</span><small>Slows down for dense text, speeds up for sparse text</small></span>
+        <input id="autoSpeed" type="checkbox">
+        <span class="track" aria-hidden="true"></span>
+      </label>
+      <label class="switch">
         <span>Pause at the end of the page</span>
         <input id="stopAtEnd" type="checkbox">
         <span class="track" aria-hidden="true"></span>
@@ -51,8 +56,14 @@
     </section>
   </main>
 
-  <p id="unsupported" class="unsupported" hidden>
-    Chrome doesn't let extensions run on this page. That includes chrome:// pages, the Web Store and Chrome's built-in PDF viewer. Try a normal website.
+  <section id="pdfOffer" class="notice" hidden>
+    <p><strong>Reading a PDF?</strong> Chrome's built-in PDF viewer blocks all extensions. Open it in Glide Reader to auto scroll it.</p>
+    <button id="openReader" class="primary">Open in Glide Reader</button>
+    <p class="fine">Not a PDF? Chrome doesn't let extensions run on this page.</p>
+  </section>
+
+  <p id="unsupported" class="notice" hidden>
+    Chrome doesn't let extensions run on this page. That includes chrome:// pages and the Web Store. Try a normal website.
   </p>
 
   <footer>
