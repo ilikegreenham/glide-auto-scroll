@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glide Reader</title>
+  <link rel="icon" href="icons/icon32.png">
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+  <header class="toolbar">
+    <img src="icons/icon32.png" alt="" width="20" height="20">
+    <span class="brand">Glide Reader</span>
+    <span id="title" class="title"></span>
+    <span class="spacer"></span>
+    <span id="pageInfo" class="page-info" hidden>
+      <input id="pageInput" type="text" inputmode="numeric" aria-label="Page number"> / <span id="pageCount"></span>
+    </span>
+    <div class="zoom" id="zoomControls" hidden>
+      <button id="zoomOut" title="Zoom out" aria-label="Zoom out">&minus;</button>
+      <button id="zoomFit" title="Fit to width">Fit</button>
+      <button id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+    </div>
+    <a id="original" class="original" target="_blank" rel="noopener" title="Open in Chrome's PDF viewer">Original &#x2197;</a>
+  </header>
+
+  <main id="pages" class="pages"></main>
+
+  <section id="message" class="message" hidden>
+    <img src="icons/icon128.png" alt="" width="56" height="56">
+    <h1 id="messageTitle"></h1>
+    <p id="messageText"></p>
+    <div class="actions" id="messageActions"></div>
+  </section>
+
+  <script src="shared.js"></script>
+  <script src="content.js"></script>
+  <script type="module" src="viewer.js"></script>
+</body>
+</html>

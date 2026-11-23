@@ -10,13 +10,13 @@ Copy each section into the matching box in the Chrome Web Store Developer Dashbo
 Glide - Smooth Auto Scroll
 
 **Summary** (comes from manifest.json, max 132 characters)
-Hands-free, adjustable auto scrolling for reading articles, docs, and long pages.
+Hands-free, adjustable auto scrolling for articles, docs, PDFs and long pages.
 
 **Description**
 ```
 Glide scrolls the page for you at a smooth, steady speed, so you can sit back and read.
 
-Perfect for long articles, documentation, recipes, lyrics, scripts, study notes, and anything else you'd rather not keep scrolling by hand.
+Perfect for long articles, textbooks and PDFs, documentation, recipes, lyrics, scripts, study notes, and anything else you'd rather not keep scrolling by hand.
 
 FEATURES
 • Smooth, steady scrolling, from a slow crawl to a quick skim
@@ -25,6 +25,8 @@ FEATURES
 • Small floating control on the page (−, play/pause, +, close), or turn it off
 • Works on web apps with inner scrolling panels: Glide scrolls the part of the page under your mouse
 • Pauses automatically at the end of the page (optional)
+• Glide Reader for PDFs: Chrome's PDF viewer blocks extensions, so Glide can open the PDF in its own reader, with zoom, page jump and resume where you left off
+• NEW (beta): Auto speed slows down for dense text and speeds up for sparse text and gaps
 • Remembers your speed
 • Light and dark mode
 
@@ -32,14 +34,14 @@ PRIVATE BY DESIGN
 • No tracking, no analytics, no accounts, no ads
 • Collects no data, and nothing leaves your computer
 • Runs on a page only after you click the Glide icon or press a Glide shortcut on it
-• Needs only three permissions: activeTab, scripting, and storage
+• Needs only three permissions at install. Site access is asked for only if you open a PDF in Glide Reader
 
 HOW TO USE
 1. Click the Glide icon in your toolbar (pin it first, from the puzzle-piece menu).
 2. Press the play button or Alt+Shift+S.
 3. Use the slider or Alt+Shift+Up/Down to set your speed.
 
-Note: Chrome doesn't allow any extension to run on chrome:// pages, the Chrome Web Store, or Chrome's built-in PDF viewer.
+Note: Chrome doesn't allow any extension to run on chrome:// pages or the Chrome Web Store. For PDFs, use Glide Reader.
 
 Glide is free and open source.
 ```
@@ -64,7 +66,7 @@ Glide is free and open source.
 
 **Single purpose description**
 ```
-Glide automatically scrolls the current web page at a speed the user chooses, so they can read long pages hands-free.
+Glide automatically scrolls the current web page or PDF at a speed the user chooses, so they can read long pages hands-free.
 ```
 
 **Permission justifications**
@@ -84,9 +86,14 @@ storage:
 Used to save the user's preferred scroll speed and two on/off settings (show floating control, pause at end of page) locally on their device.
 ```
 
+Host permission (optional, `<all_urls>` in optional_host_permissions):
+```
+Requested only at runtime, and only when the user opens a PDF in Glide Reader and clicks Allow. Chrome's built-in PDF viewer does not allow extensions, so Glide Reader downloads the PDF the user chose and displays it with the bundled pdf.js library. The user can grant one site or all sites. It is never used to read web pages.
+```
+
 **Are you using remote code?** No, I am not using remote code.
 
-**Data usage:** leave every data type **unchecked**. Glide collects none of them.
+**Data usage:** leave every data type **unchecked**. Glide collects none of them, and everything stays on the user's computer.
 Then tick all three certifications:
 - I do not sell or transfer user data to third parties, outside of the approved use cases
 - I do not use or transfer user data for purposes that are unrelated to my item's single purpose

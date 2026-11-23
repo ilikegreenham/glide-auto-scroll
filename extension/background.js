@@ -3,17 +3,6 @@
 
 importScripts("shared.js");
 
-// Put the page script into a tab (does nothing if it is already there).
-// Returns false on pages Chrome protects, like chrome:// or the Web Store.
-async function injectInto(tabId) {
-  try {
-    await chrome.scripting.executeScript({ target: { tabId }, files: ["shared.js", "content.js"] });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 const COMMAND_MESSAGES = {
   "toggle-scroll": "toggle",
   "speed-up": "faster",
@@ -23,11 +12,13 @@ const COMMAND_MESSAGES = {
 chrome.commands.onCommand.addListener(async (command, tab) => {
   const type = COMMAND_MESSAGES[command];
   if (!type || !tab?.id) return;
-  if (!(await injectInto(tab.id))) return;
-  try {
-    await chrome.tabs.sendMessage(tab.id, { type });
-  } catch {
-    // Page was closed or navigated away; nothing to do.
+
+  if (await GLIDE.prepareTab(tab)) {
+    await GLIDE.sendToTab(tab, type);
+  } else if (type === "toggle" && GLIDE.couldBePdf(tab.url)) {
+    // Probably Chrome's PDF viewer, which extensions can't touch.
+    // Reopen the PDF in Glide's own reader instead.
+    chrome.tabs.update(tab.id, { url: GLIDE.readerUrl(tab.url) });
   }
 });
 

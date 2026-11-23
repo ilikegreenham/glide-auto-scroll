@@ -26,6 +26,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
   width: 300px;
@@ -101,9 +102,25 @@ input[type="range"] { flex: 1; accent-color: var(--accent); margin: 0; }
 .switch input:checked + .track::after { transform: translateX(14px); }
 .switch input:focus-visible + .track { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.unsupported {
+.notice {
   margin: 16px 0; padding: 12px; border-radius: 10px;
   background: var(--surface); color: var(--muted);
+}
+.notice p { margin: 0 0 10px; }
+.notice strong { color: var(--text); }
+.notice .fine { margin: 10px 0 0; font-size: 11px; }
+.primary {
+  width: 100%; padding: 9px 0; border: 0; border-radius: 8px;
+  background: var(--accent); color: #fff; font-weight: 600;
+}
+.primary:hover { background: var(--accent-hover); }
+
+.switch small { display: block; font-size: 11px; color: var(--muted); margin-top: 1px; }
+.switch > span:first-child { padding-right: 10px; }
+.beta {
+  display: inline-block; vertical-align: 1px; margin-left: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 1px 5px; border-radius: 4px; background: var(--accent-soft); color: var(--accent);
 }
 
 footer { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 10px; }

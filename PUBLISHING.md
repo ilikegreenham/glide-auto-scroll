@@ -7,7 +7,7 @@ Google changes the dashboard now and then, so a button may have a slightly diffe
 ## What you'll upload
 | What | File |
 |---|---|
-| The extension | `glide-webstore-v1.0.0.zip` |
+| The extension | `glide-webstore-v1.1.0.zip` |
 | Listing text and answers | `store/LISTING.md` |
 | Icon, screenshots and promo tiles | everything in `store/` ending in `.png` |
 
@@ -19,7 +19,7 @@ Google changes the dashboard now and then, so a button may have a slightly diffe
 
 ## Step 2: Upload the extension
 1. In the dashboard, click **New item** (sometimes shown as **+ Add new item**).
-2. Upload **`glide-webstore-v1.0.0.zip`**. Don't unzip it.
+2. Upload **`glide-webstore-v1.1.0.zip`**. Don't unzip it.
 3. The dashboard reads the name, summary, version and icon from the zip automatically.
 
 ## Step 3: Fill in the Store listing tab
@@ -36,7 +36,7 @@ Open `store/LISTING.md` and copy each part in:
 ## Step 4: Fill in the Privacy practices tab
 This is the part people most often get stuck on. Every answer is already written in `store/LISTING.md`:
 1. Paste the **single purpose** sentence.
-2. Paste the three **permission justifications** (activeTab, scripting, storage).
+2. Paste the **permission justifications** (activeTab, scripting, storage, and the host permission).
 3. **Remote code**: choose **No**.
 4. **Data usage**: tick **nothing** in the list of data types, then tick the **three certification boxes** at the bottom.
 5. **Privacy policy URL**: paste the GitHub link to `PRIVACY.md` (it works once the repo is public).
